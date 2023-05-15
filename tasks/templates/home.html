@@ -3,5 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-Home
+{% for task in tasks %}
+<p>{{ task }} -- {{ task.task_list }}</p>
+{% endfor %}
 {% endblock %}

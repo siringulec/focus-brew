@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from tasks.models import TaskList, Task
+
+
+class TaskAdmin(admin.ModelAdmin):
+    pass
+
+
+class TaskListAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskList, TaskListAdmin)
