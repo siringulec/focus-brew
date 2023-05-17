@@ -51,7 +51,7 @@ def task_list_detail(request, pk):
     task_list_current = get_object_or_404(
         TaskList.objects.filter(user=request.user), pk=pk
     )
-    tasks = Task.objects.filter(task_list=task_list_current)
+    tasks = Task.objects.filter(task_list=task_list_current).order_by('created_at')
 
     return render(
         request,
@@ -95,6 +95,21 @@ def update_task_list(request, pk):
     return render(
         request, "update_task_list.html", {"form": form, "task_lists": task_lists}
     )
+
+
+@login_required
+def delete_task_list(request, pk):
+    task_list = get_object_or_404(TaskList.objects.filter(user=request.user), pk=pk)
+    task_list.delete()
+    return redirect("home")
+
+
+@login_required
+def delete_task(request, pk):
+    task = get_object_or_404(Task.objects.filter(task_list__user=request.user), pk=pk)
+    task_list_pk = task.task_list.pk
+    task.delete()
+    return redirect("task_list_detail", pk=task_list_pk)
 
 
 @login_required
@@ -142,15 +157,7 @@ def update_task(request, task_list_pk, task_pk):
 
 @login_required
 def toggle_task(request, pk):
-    task_lists = TaskList.objects.filter(user=request.user)
     task = get_object_or_404(Task.objects.filter(task_list__user=request.user), pk=pk)
     task.is_completed = not task.is_completed
     task.save()
-    task_list_current = task.task_list
-    tasks = Task.objects.filter(task_list=task_list_current)
-
-    return render(
-        request,
-        "task_list_detail.html",
-        {"task_lists": task_lists, "task_list_current": task.task_list, "tasks": tasks},
-    )
+    return redirect("task_list_detail", pk=task.task_list.pk)

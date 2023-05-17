@@ -27,11 +27,13 @@ urlpatterns = [
     path('', tasks_views.home, name='home'),
     path('tasks/prioritized/', tasks_views.prioritized_tasks, name='prioritized_tasks'),
     path('task-list/<int:pk>/', tasks_views.task_list_detail, name='task_list_detail'),
+    path('task-list/<int:pk>/delete/', tasks_views.delete_task_list, name='delete_task_list'),
     path('task-list/create/', tasks_views.create_task_list, name='create_task_list'),
     path('task-list/<int:pk>/update/', tasks_views.update_task_list, name='update_task_list'),
     path('task-list/<int:task_list_pk>/task/create/', tasks_views.create_task, name='create_task'),
     path('task-list/<int:task_list_pk>/task/<int:task_pk>/update/', tasks_views.update_task, name='update_task'),
     path('task/<int:pk>/toggle/', tasks_views.toggle_task, name='toggle_task'),
+    path('task/<int:pk>/delete/', tasks_views.delete_task, name='delete_task'),
 
     path('register/', accounts_views.register, name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
