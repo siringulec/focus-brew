@@ -27,6 +27,14 @@
 
               <form method="post" class="row g-3 needs-validation" novalidate>
                 {% csrf_token %}
+                {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <i class="bi bi-exclamation-octagon me-1"></i>
+                  Please make sure to enter correct information! Note that all fields may be case-sensitive.
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
                 <div class="col-12">
                   <label for="yourName" class="form-label">First Name</label>
                   {{ form.first_name }}
