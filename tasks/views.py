@@ -16,7 +16,7 @@ def home(request):
         task_list__user=request.user, is_completed=True
     ).count()
     overdue_count = Task.objects.filter(
-        task_list__user=request.user, is_completed=False, due_date__lt=timezone.now()
+        task_list__user=request.user, is_completed=False, due_date__date__lt=timezone.now().date()
     ).count()
     tasks = Task.objects.filter(due_date__date=timezone.now().date())
 
