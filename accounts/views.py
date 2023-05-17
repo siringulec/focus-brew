@@ -15,3 +15,7 @@ def register(request):
             return redirect('home')
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "404.html", {})

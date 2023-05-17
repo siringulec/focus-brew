@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Prioritized Tasks{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ task_list_current.name }}
+      <a href="{% url 'create_task' task_list_current.pk %}" style="position: absolute; right: 70px;" data-bs-toggle="tooltip" data-bs-placement="left" title="Create Task" type="button" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i></a>
+      <a href="{% url 'update_task_list' task_list_current.pk %}" style="position: absolute; right: 25px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Task List" type="button" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+    </h5>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Name</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Completed</th>
+          <th scope="col">Important</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td><a href="{% url 'toggle_task' task.pk %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Toggle Task" type="button" class="btn btn-sm btn-primary"><i class="bi bi-toggles"></i></a></td>
+          <td>{{ task.name }}</td>
+          <td>{{ task.due_date|date:'d M Y' }}</td>
+          <td><i class="bi bi-{% if task.is_completed %}check{% else %}x{% endif %}-circle-fill"></i></td>
+          <td><i class="bi bi-{% if task.is_important %}check{% else %}x{% endif %}-circle-fill"></i></td>
+          <td>
+            <a href="{% url 'update_task' task_list_current.pk task.pk %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Task" type="button" class="btn btn-sm btn-secondary"><i class="bi bi-pencil-square"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
