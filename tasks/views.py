@@ -10,7 +10,7 @@ from tasks.forms import TaskListForm, TaskForm
 def home(request):
     task_lists = TaskList.objects.filter(user=request.user)
     incomplete_count = Task.objects.filter(
-        task_list__user=request.user, is_completed=False
+        task_list__user=request.user, is_completed=False, due_date__date__gte=timezone.now().date()
     ).count()
     completed_count = Task.objects.filter(
         task_list__user=request.user, is_completed=True
@@ -18,7 +18,7 @@ def home(request):
     overdue_count = Task.objects.filter(
         task_list__user=request.user, is_completed=False, due_date__date__lt=timezone.now().date()
     ).count()
-    tasks = Task.objects.filter(due_date__date=timezone.now().date())
+    tasks = Task.objects.filter(task_list__user=request.user, is_completed=False, due_date__date=timezone.now().date())
 
     return render(
         request,
